@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -16,6 +16,8 @@ function createWindow() {
       sandbox: false
     }
   })
+
+  mainWindow.setAlwaysOnTop(true, 'screen')
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
@@ -49,8 +51,6 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
 
   createWindow()
 

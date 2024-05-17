@@ -1,10 +1,10 @@
 {
   "name": "flux-note",
   "version": "1.0.0",
-  "description": "An Electron application with React",
+  "description": "Flux Note is a simple meeting AI note-taking Electron app.",
   "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://electron-vite.org",
+  "author": "Arindam Ghosh",
+  "homepage": " ",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
@@ -33,6 +33,7 @@
     "prettier": "^3.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "tailwindcss": "^3.4.3",
     "vite": "^5.0.12"
   }
 }
