@@ -1,37 +1,35 @@
-import { useState } from 'react';
-import { Button, Container, Typography, Box } from '@mui/material';
-import { startRecording, stopRecording } from './utils/audioRecorder';
+import Versions from './components/Versions'
+import electronLogo from './assets/electron.svg'
 
-const App = () => {
-  const [isRecording, setIsRecording] = useState(false);
-
-  const handleStartRecording = async () => {
-    setIsRecording(true);
-    await startRecording();
-  };
-
-  const handleStopRecording = async () => {
-    setIsRecording(false);
-    await stopRecording();
-  };
+function App() {
+  const ipcHandle = () => window.electron.ipcRenderer.send('ping')
 
   return (
-    <Container maxWidth="sm" className="mt-8">
-      <Box className="text-center">
-        <Typography variant="h4" component="h1" gutterBottom>
-          Audio Recorder
-        </Typography>
-        <Button
-          variant="contained"
-          color={isRecording ? 'secondary' : 'primary'}
-          onClick={isRecording ? handleStopRecording : handleStartRecording}
-          className="mt-4"
-        >
-          {isRecording ? 'Stop Recording' : 'Start Recording'}
-        </Button>
-      </Box>
-    </Container>
-  );
-};
+    <>
+      <img alt="logo" className="logo" src={electronLogo} />
+      <div className="creator">Powered by electron-vite</div>
+      <div className="text">
+        Build an Electron app with <span className="react">React</span>
+      </div>
+      <p className="tip">
+        Please try pressing <code>F12</code> to open the devTool
+      </p>
+      <div className="actions">
+        <div className="action">
+          <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
+            Documentation
+          </a>
+        </div>
+        <div className="action">
+          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
+            Send IPC
+          </a>
+        </div>
+      </div>
+      <Versions></Versions>
+    </>
+  )
+}
 
-export default App;
+export default App
+
