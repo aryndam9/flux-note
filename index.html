@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Whisper Transcriber</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 20px; }
+      button { padding: 10px 20px; font-size: 16px; }
+      #transcription { white-space: pre-wrap; margin-top: 20px; }
+    </style>
+  </head>
+  <body>
+    <h1>Whisper Transcriber</h1>
+    <button id="upload">Upload MP3 File</button>
+    <button id="transcribe" disabled>Transcribe</button>
+    <pre id="transcription"></pre>
+    <button id="download" disabled>Download Transcript</button>
+
+    <!-- Place the script at the end of the body -->
+    <script>
+      document.addEventListener('DOMContentLoaded', (event) => {
+        const uploadButton = document.getElementById('upload');
+        const transcribeButton = document.getElementById('transcribe');
+        const downloadButton = document.getElementById('download');
+        const transcriptionPre = document.getElementById('transcription');
+        let filePath;
+    
+        uploadButton.addEventListener('click', async () => {
+          filePath = await window.electronAPI.openFileDialog();
+          if (filePath) {
+            transcribeButton.disabled = false;
+            transcriptionPre.textContent = `File selected: ${filePath}`;
+          }
+        });
+    
+        transcribeButton.addEventListener('click', async () => {
+          if (filePath) {
+            console.log('Transcribing file:', filePath); // Debug log
+            try {
+              const transcription = await window.electronAPI.transcribeAudio(filePath);
+              console.log('Transcription result:', transcription); // Debug log
+              transcriptionPre.textContent = transcription;
+              downloadButton.disabled = false;
+            } catch (error) {
+              console.error('Transcription failed:', error); // Log errors
+            }
+          }
+        });
+    
+        downloadButton.addEventListener('click', () => {
+          const blob = new Blob([transcriptionPre.textContent], { type: 'text/plain' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'transcription.txt';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        });
+      });
+    </script>
+    
+  </body>
+</html>

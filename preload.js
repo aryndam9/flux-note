@@ -1,14 +1,7 @@
 // preload.js
-// window.addEventListener('DOMContentLoaded', () => {
-//     const replaceText = (selector, text) => {
-//       const element = document.getElementById(selector)
-//       if (element) element.innerText = text
-//     }
-  
-//     for (const dependency of ['chrome', 'node', 'electron']) {
-//       replaceText(`${dependency}-version`, process.versions[dependency])
-//     }
-//   })
-window.addEventListener('DOMContentLoaded', () => {
-  console.log('preload.js: DOMContentLoaded event');
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  openFileDialog: () => ipcRenderer.invoke('open-file-dialog'),
+  transcribeAudio: (filePath) => ipcRenderer.invoke('transcribe-audio', filePath),
 });
